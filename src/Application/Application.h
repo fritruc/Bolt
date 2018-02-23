@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SFML/Graphics.hpp"
+#include <unordered_map>
 
 class cScreen;
 
@@ -56,6 +57,9 @@ public:
     virtual  void  SensorChanged( const sf::Event& iEvent );          ///< A sensor value changed (data in event.sensor)
 
 protected:
+    typedef void ( cApplication::*tEvtFctPtr )( const sf::Event& iEvent );
+    std::unordered_map< int, tEvtFctPtr > mEventJumpTable;
+
     sf::RenderWindow*       mMainWindow;
     std::vector< cScreen* > mScreenStack;
     cScreen*                mCurrentScreen;

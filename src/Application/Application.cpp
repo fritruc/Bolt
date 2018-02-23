@@ -17,7 +17,8 @@
 
 
 cApplication::cApplication() :
-    mMainWindow( 0 )
+    mMainWindow( 0 ),
+    mEventJumpTable()
 {
 }
 
@@ -57,6 +58,8 @@ void
 cApplication::Initialize()
 {
     mMainWindow = new  sf::RenderWindow( sf::VideoMode( 800, 600 ), "Console" );
+
+    mEventJumpTable[ int( sf::Event::Closed ) ] = &cApplication::Closed;
 }
 
 
@@ -122,7 +125,7 @@ cApplication::HandleEvents( sf::Event & iEvent )
     switch( iEvent.type )
     {
         case sf::Event::Closed:
-            mMainWindow->close();
+            (this->*mEventJumpTable[ iEvent.type ])( iEvent );
             break;
         case sf::Event::Resized:
             Resized( iEvent );
@@ -198,6 +201,7 @@ cApplication::HandleEvents( sf::Event & iEvent )
 void
 cApplication::Closed( const sf::Event& iEvent )
 {
+    mMainWindow->close();
 }
 
 
