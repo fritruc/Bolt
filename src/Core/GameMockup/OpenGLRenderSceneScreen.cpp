@@ -158,7 +158,7 @@ cOpenGLRenderSceneScreen::Initialize()
                 for( int k = 0; k < n; ++k )
                 {
                     float xbase = ( i + nshift ) * padding;
-                    float ybase = ( 20 );
+                    float ybase = ( 10 );
                     float zbase = ( k + nshift ) * padding;
 
                     for( int l = 0; l < diam; ++l )
@@ -183,8 +183,7 @@ cOpenGLRenderSceneScreen::Initialize()
 
         ////////////////////////////////////////////////////////////////
 
-        /*
-        int sak = 16*2;
+        int sak = 200;
         for( int i = -sak; i < sak; ++i )
         {
             for( int j = -sak; j < sak; ++j )
@@ -194,13 +193,13 @@ cOpenGLRenderSceneScreen::Initialize()
                     float x = i;
                     float y = j;
                     float z = k;
-                    mMap.SafeSetMaterial( x, y, z, 12 );
+                    if(sqrt(x*x + y*y + z*z) < sak / 2)
+                        mMap.SafeSetMaterial( x, y, z, 12 );
 
                 }
             }
         }
 
-        */
         mMap.UpdateChunksVBOs();
     };
 

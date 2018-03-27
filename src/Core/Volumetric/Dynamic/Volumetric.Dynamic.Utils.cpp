@@ -61,7 +61,6 @@ InterleavedCCWLeftFaceWithColor( std::vector< glm::vec3 >* oData,  tBufferDataIn
 {
     // Two triangles, CCW winding, left face.
     // Alternating: Vertice, Color, Vertice, Color, ...
-
     //Triangle1
     (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, 0.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
