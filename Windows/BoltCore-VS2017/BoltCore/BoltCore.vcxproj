@@ -279,6 +279,12 @@
     <ClCompile Include="..\..\..\src\Core\Screen\ScreenMainMenu.cpp" />
     <ClCompile Include="..\..\..\src\Core\Shader\Shader.cpp" />
     <ClCompile Include="..\..\..\src\Core\Shortcuts\Shortcuts.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.IndexedData.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.HashableGlobal3DKey.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.HashableLocal3DKey .cpp" />
+    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.SparseMap.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.LodSparseChunk.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.Utils.cpp" />
     <ClCompile Include="..\..\..\src\Core\Volumetric\Static\Data.cpp" />
     <ClCompile Include="..\..\..\src\Core\Volumetric\Static\Hashable3DKey.cpp" />
     <ClCompile Include="..\..\..\src\Core\Volumetric\Static\SparseStaticLodChunk16Map.cpp" />
@@ -342,6 +348,13 @@
     <ClInclude Include="..\..\..\src\Core\Screen\ScreenMainMenu.h" />
     <ClInclude Include="..\..\..\src\Core\Shader\Shader.h" />
     <ClInclude Include="..\..\..\src\Core\Shortcuts\Shortcuts.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.IndexedData.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.HashableGlobal3DKey.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.HashableLocal3DKey.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.SparseMap.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.LodSparseChunk.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.Types.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.Utils.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\Static\Data.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\Static\Hashable3DKey.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\Static\SparseStaticLodChunk16Map.h" />
