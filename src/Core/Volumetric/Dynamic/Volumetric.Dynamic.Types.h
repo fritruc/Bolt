@@ -18,6 +18,9 @@ typedef  int32_t    tGlobalDataIndex;       // 32 bits, [−2,147,483,647, +2,14
 typedef  uint32_t   tBufferDataIndex;       // 32 bits, [0, 4,294,967,295]
 
 
+static  const  int  sgElementSize = sizeof( glm::vec3 );
+
+
 #ifndef BUFFER_OFFSET
     #define BUFFER_OFFSET(offset) ((char*)NULL + (offset))
 #endif

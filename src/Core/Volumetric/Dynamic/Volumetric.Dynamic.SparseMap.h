@@ -2,32 +2,32 @@
 
 #include <unordered_map>
 
-#include "Volumetric/Static/Types.h"
-#include "Volumetric/Static/StaticLodChunk64.h"
-#include "Volumetric/Static/Hashable3DKey.h"
+#include "Volumetric.Dynamic.Types.h"
+#include "Volumetric.Dynamic.LodSparseChunk.h"
+#include "Volumetric.Dynamic.HashableGlobal3DKey.h"
 
 
-namespace  nVolumetric
-{
+namespace  nVolumetric {
+namespace  nDynamic {
 
-class  cSparseStaticLodChunk64Map
+class  cSparseMap
 {
 
 public:
     // Construction / Destruction
-    ~cSparseStaticLodChunk64Map();
-    cSparseStaticLodChunk64Map();
-    cSparseStaticLodChunk64Map( const  cSparseStaticLodChunk64Map& ) = delete;
+    ~cSparseMap();
+    cSparseMap();
+    cSparseMap( const  cSparseMap& ) = delete;
 
 public:
     // Sparse Volume Information
     cHashable3DKey      KeyForIndices( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )  const;
     bool                ChunkExists( const  cHashable3DKey&  iKey )                                     const;
-    cStaticLodChunk64*  ChunkAtKey( const  cHashable3DKey&  iKey );
+    cLodSparseChunk*  ChunkAtKey( const  cHashable3DKey&  iKey );
 
 public:
     // Chunk cmd
-    cStaticLodChunk64*  MkChunk( const  cHashable3DKey&  iKey );
+    cLodSparseChunk*  MkChunk( const  cHashable3DKey&  iKey );
     void  RmChunk( const  cHashable3DKey&  iKey );
     void  UpdateChunkNeighbours( const  cHashable3DKey&  iKey );
     void  PurgeEmptyChunks();
@@ -46,10 +46,11 @@ public:
 
 private:
     // Private Data Members
-    std::unordered_map< tHashableKeySignature, cStaticLodChunk64* > mChunks; // Owning
+    std::unordered_map< tHashableKeySignature, cLodSparseChunk* > mChunks; // Owning
     int  mUseDebugColors;
 };
 
 
+} // namespace  nDynamic
 } // namespace  nVolumetric
 
