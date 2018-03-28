@@ -39,19 +39,19 @@ InterleavedCCWRightFaceWithColor( std::vector< glm::vec3 >* oData,  tBufferDataI
     // Alternating: Vertice, Color, Vertice, Color, ...
 
     //Triangle1
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f,   0.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 0.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, -1.f,  0.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 1.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f,  -1.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 1.f, 0.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
 
     //Triangle2
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f,  0.f, -1.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 1.f, 0.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, -1.f,  0.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 1.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, -1.f, -1.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 1.f, 1.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
 }
 
@@ -59,13 +59,24 @@ InterleavedCCWRightFaceWithColor( std::vector< glm::vec3 >* oData,  tBufferDataI
 void
 InterleavedCCWLeftFaceWithColor( std::vector< glm::vec3 >* oData,  tBufferDataIndex* ioIndex, const  glm::vec3&  iLocation, const  glm::vec3&  iColor )
 {
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY,         iZ          );
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY,         iZ - 1.f    );
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ          );
+    // Two triangles, CCW winding, left face.
+    // Alternating: Vertice, Color, Vertice, Color, ...
 
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ          );
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY,         iZ - 1.f    );
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ - 1.f    );
+    //Triangle1
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+
+    //Triangle2
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
 }
 
 
@@ -76,19 +87,19 @@ InterleavedCCWTopFaceWithColor(   std::vector< glm::vec3 >* oData,  tBufferDataI
     // Alternating: Vertice, Color, Vertice, Color, ...
 
     //Triangle1
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f,  0.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 0.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f,  0.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 1.f, 0.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, -1.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 1.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
 
     //Triangle2
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, -1.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 1.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f,  0.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 1.f, 0.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
-    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, -1.f );
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 1.f, 1.f );
     (*oData)[ (*ioIndex)++ ] = iColor;
 }
 
@@ -96,39 +107,72 @@ InterleavedCCWTopFaceWithColor(   std::vector< glm::vec3 >* oData,  tBufferDataI
 void
 InterleavedCCWBotFaceWithColor( std::vector< glm::vec3 >* oData,  tBufferDataIndex* ioIndex, const  glm::vec3&  iLocation, const  glm::vec3&  iColor )
 {
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ          );
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ - 1.f    );
-    iData[ iIndex++ ]   = sf::Vector3f( iX + 1.f,   iY - 1.f,   iZ          );
+    // Two triangles, CCW winding, bot face.
+    // Alternating: Vertice, Color, Vertice, Color, ...
 
-    iData[ iIndex++ ]   = sf::Vector3f( iX + 1.f,   iY - 1.f,   iZ          );
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ - 1.f    );
-    iData[ iIndex++ ]   = sf::Vector3f( iX + 1.f,   iY - 1.f,   iZ - 1.f    );
+    //Triangle1
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+
+    //Triangle2
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
 }
 
 
 void
 InterleavedCCWBackFaceWithColor( std::vector< glm::vec3 >* oData,  tBufferDataIndex* ioIndex, const  glm::vec3&  iLocation, const  glm::vec3&  iColor )
 {
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY,         iZ - 1.f    );
-    iData[ iIndex++ ]   = sf::Vector3f( iX + 1.f,   iY,         iZ - 1.f    );
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ - 1.f    );
+    // Two triangles, CCW winding, back  face.
+    // Alternating: Vertice, Color, Vertice, Color, ...
 
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ - 1.f    );
-    iData[ iIndex++ ]   = sf::Vector3f( iX + 1.f,   iY,         iZ - 1.f    );
-    iData[ iIndex++ ]   = sf::Vector3f( iX + 1.f,   iY - 1.f,   iZ - 1.f    );
+    //Triangle1
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+
+    //Triangle2
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 1.f, 1.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
 }
 
 
 void
 InterleavedCCWFrontFaceWithColor( std::vector< glm::vec3 >* oData,  tBufferDataIndex* ioIndex, const  glm::vec3&  iLocation, const  glm::vec3&  iColor )
 {
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY,         iZ          );
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ          );
-    iData[ iIndex++ ]   = sf::Vector3f( iX + 1.f,   iY,         iZ          );
+    // Two triangles, CCW winding, front  face.
+    // Alternating: Vertice, Color, Vertice, Color, ...
 
-    iData[ iIndex++ ]   = sf::Vector3f( iX + 1.f,   iY,         iZ          );
-    iData[ iIndex++ ]   = sf::Vector3f( iX,         iY - 1.f,   iZ          );
-    iData[ iIndex++ ]   = sf::Vector3f( iX + 1.f,   iY - 1.f,   iZ          );
+    //Triangle1
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 0.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+
+    //Triangle2
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 0.f, 1.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 0.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
+    (*oData)[ (*ioIndex)++ ] = iLocation + glm::vec3( 1.f, 1.f, 0.f );
+    (*oData)[ (*ioIndex)++ ] = iColor;
 }
 
 
