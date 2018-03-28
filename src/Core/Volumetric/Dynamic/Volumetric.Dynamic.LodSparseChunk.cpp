@@ -1,5 +1,5 @@
-#include "Volumetric/Static/StaticLodChunk64.h"
-#include "Volumetric/Static/VUtils.h"
+#include "Volumetric.Dynamic.LodSparseChunk.h"
+#include "Volumetric.Dynamic.Utils.h"
 
 
 namespace  nVolumetric

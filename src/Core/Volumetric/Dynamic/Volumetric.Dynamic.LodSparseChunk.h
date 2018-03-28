@@ -1,8 +1,7 @@
 #pragma once
 
 
-#include "Volumetric/Static/Data.h"
-#include "Volumetric/Static/Types.h"
+#include "Volumetric.Dynamic.Types.h"
 
 
 #include <GL/glew.h>
@@ -10,32 +9,34 @@
 #include "SFML/OpenGL.hpp"
 #include "SFML/Graphics.hpp"
 
+#include <unordered_map>
 
-namespace  nVolumetric
-{
+namespace  nVolumetric {
+namespace  nDynamic {
 
 
-class  cStaticLodChunk64
+template< uint16_t N >
+class  cLodSparseChunk
 {
 
 public:
     // Construction / Destruction
-    ~cStaticLodChunk64();
-    cStaticLodChunk64();
-    cStaticLodChunk64( tByte iVal );
-    cStaticLodChunk64( const  cStaticLodChunk64& ) = delete;
+    ~cLodSparseChunk();
+    cLodSparseChunk();
+    cLodSparseChunk( const  cStaticLodChunk64& ) = delete;
 
 public:
     // Volume Information
-    tByte           Size()              const;
-    unsigned  int   Capacity()          const;
-    unsigned  int   OccupiedVolume()    const;
-    bool            IsFull()            const;
-    bool            IsEmpty()           const;
+    uint16_t    Size()              const;
+    uint32_t    Capacity()          const;
+    uint32_t    OccupiedVolume()    const;
+    uint32_t    OccupiedSurface()   const;
+    bool        IsFull()            const;
+    bool        IsEmpty()           const;
 
 public:
     // Volume Manipulation
-    void    Fill( tByte iVal );
+    void    Fill( tByte iMaterial );
 
 public:
     // Material Accessors
@@ -45,7 +46,7 @@ public:
 
 public:
     // Neighbour Accessors
-    cStaticLodChunk64*  GetNeighbour( eNF_Index  iNeighbourIndex )  const;
+    cLodSparseChunk*    GetNeighbour( eNF_Index  iNeighbourIndex )  const;
     void                SetNeighbour( eNF_Index  iNeighbourIndex, cStaticLodChunk64* iAdress );
 
 private:
@@ -54,7 +55,7 @@ private:
     void                UpdateDataNeighbours( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ );
 
     cData*              GetSafeExternDataHandle( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ );
-    cStaticLodChunk64*  GetSafeExternChunkHandle( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ );
+    cLodSparseChunk*    GetSafeExternChunkHandle( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ );
 
 public:
     // Naive Rendering
@@ -79,11 +80,13 @@ private:
 
 private:
     // Private Data Members
-    static  const  tByte            msSize = 64;
-    static  const  unsigned  int    msCapacity = msSize * msSize * msSize; // size^3
-    unsigned  int                   mOccupiedVolume;
-    cStaticLodChunk64*              mNeighbour[6] = { 0, 0, 0, 0, 0, 0 };   // six neighbours
-    cData                           mData[msSize][msSize][msSize];          // data
+    const  uint32_t                 mCapacity = N * N * N; // size^3
+    uint32_t                        mOccupiedVolume;
+    uint32_t                        mOccupiedSurface;
+    cLodSparseChunk*                mNeighbour[6] = { 0, 0, 0, 0, 0, 0 };   // six neighbours
+    //cData                           mData[msSize][msSize][msSize];          // data
+    std::unordered_map< tHashableKeySignature, tByte > mData; // Owning
+
     GLuint                          mVBO_ID[6] = { 0, 0, 0, 0, 0, 0 };
     GLuint                          mNVerticesVBOElem;
     GLuint                          mNColorsVBOElem;
@@ -93,5 +96,6 @@ private:
 };
 
 
+} // namespace  nDynamic
 } // namespace  nVolumetric
 
