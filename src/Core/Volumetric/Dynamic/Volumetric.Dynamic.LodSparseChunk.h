@@ -1,20 +1,18 @@
 #pragma once
 
-
 #include "Volumetric.Dynamic.Types.h"
-
 
 #include <GL/glew.h>
 #include <gl/GLU.h>
-#include "SFML/OpenGL.hpp"
-#include "SFML/Graphics.hpp"
+#include <SFML/OpenGL.hpp>
 
-#include <unordered_map>
+#include <glm/vec3.hpp>
 
 namespace  nVolumetric {
 namespace  nDynamic {
 
 
+template< uint32_t N >
 class  cLodSparseChunk
 {
 
@@ -50,7 +48,6 @@ public:
 private:
     // Data Manipulation
     tByte*              DataHandle( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ );
-    void                UpdateDataNeighbours( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ );
 
     tByte*              GetSafeExternDataHandle( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ );
     cLodSparseChunk*    GetSafeExternChunkHandle( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ );
@@ -58,7 +55,7 @@ private:
 public:
     // Naive Rendering
     void  DrawVBOs( GLuint iShaderProgramID );
-    void  SetDebugColor( const  sf::Vector3f& iDebugColor );
+    void  SetDebugColor( const  glm::vec3& iDebugColor );
 
 public:
     // VBO Interface
@@ -78,17 +75,16 @@ private:
 
 private:
     // Private Data Members
-    static  const  uint16_t         N = 64;
-    const  uint32_t                 mCapacity = N * N * N; // size^3
+    const  uint32_t                 mCapacity = N * N * N;
     uint32_t                        mOccupiedVolume;
     cLodSparseChunk*                mNeighbour[6] = { 0, 0, 0, 0, 0, 0 };   // six neighbours
-    std::unordered_map< tHashableKeySignature, tByte > mData; // Owning
+    tByte                           mData[N][N][N];
 
     GLuint                          mVBO_ID[6] = { 0, 0, 0, 0, 0, 0 };
     GLuint                          mNVerticesVBOElem;
     GLuint                          mNColorsVBOElem;
     GLuint                          mVerticesMsize;
-    sf::Vector3f                    mDebugColor;
+    glm::vec3                       mDebugColor;
 };
 
 

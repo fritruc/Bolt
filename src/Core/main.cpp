@@ -104,7 +104,7 @@ main(int argc, char *argv[])
         }
 
         app->Update( frameTime.asMilliseconds() );
-        window->clear( sf::Color( 200, 200, 200 ) );
+        //window->clear( sf::Color( 200, 200, 200 ) );
         app->Draw( window );
 
         // PERF TESTS============================================================

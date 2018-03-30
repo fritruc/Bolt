@@ -1,4 +1,4 @@
-#include "Volumetric/Static/SparseStaticLodChunk64Map.h"
+#include "Volumetric.Dynamic.SparseMap.h"
 
 
 #include <GL/glew.h>
@@ -6,33 +6,35 @@
 #include "SFML/OpenGL.hpp"
 
 
-namespace  nVolumetric
-{
+static  const  glm::vec3     sgDebugColor[14] = {   glm::vec3(   237.f,  028.f,  036.f   )   /   255.f,
+                                                    glm::vec3(   255.f,  127.f,  039.f   )   /   255.f,
+                                                    glm::vec3(   255.f,  242.f,  000.f   )   /   255.f,
+                                                    glm::vec3(   037.f,  177.f,  076.f   )   /   255.f,
+                                                    glm::vec3(   000.f,  162.f,  232.f   )   /   255.f,
+                                                    glm::vec3(   063.f,  072.f,  204.f   )   /   255.f,
+                                                    glm::vec3(   163.f,  073.f,  164.f   )   /   255.f,
+                                                    glm::vec3(   255.f,  172.f,  204.f   )   /   255.f,
+                                                    glm::vec3(   255.f,  201.f,  014.f   )   /   255.f,
+                                                    glm::vec3(   239.f,  228.f,  176.f   )   /   255.f,
+                                                    glm::vec3(   181.f,  230.f,  029.f   )   /   255.f,
+                                                    glm::vec3(   153.f,  217.f,  234.f   )   /   255.f,
+                                                    glm::vec3(   112.f,  146.f,  190.f   )   /   255.f,
+                                                    glm::vec3(   200.f,  191.f,  231.f   )   /   255.f };
 
 
-static  const  sf::Vector3f  sgDebugColor[14] = {   sf::Vector3f(   237.f,  028.f,  036.f   )   /   255.f,
-                                                    sf::Vector3f(   255.f,  127.f,  039.f   )   /   255.f,
-                                                    sf::Vector3f(   255.f,  242.f,  000.f   )   /   255.f,
-                                                    sf::Vector3f(   037.f,  177.f,  076.f   )   /   255.f,
-                                                    sf::Vector3f(   000.f,  162.f,  232.f   )   /   255.f,
-                                                    sf::Vector3f(   063.f,  072.f,  204.f   )   /   255.f,
-                                                    sf::Vector3f(   163.f,  073.f,  164.f   )   /   255.f,
-                                                    sf::Vector3f(   255.f,  172.f,  204.f   )   /   255.f,
-                                                    sf::Vector3f(   255.f,  201.f,  014.f   )   /   255.f,
-                                                    sf::Vector3f(   239.f,  228.f,  176.f   )   /   255.f,
-                                                    sf::Vector3f(   181.f,  230.f,  029.f   )   /   255.f,
-                                                    sf::Vector3f(   153.f,  217.f,  234.f   )   /   255.f,
-                                                    sf::Vector3f(   112.f,  146.f,  190.f   )   /   255.f,
-                                                    sf::Vector3f(   200.f,  191.f,  231.f   )   /   255.f };
+namespace  nVolumetric {
+namespace  nDynamic {
 
 
-cSparseStaticLodChunk64Map::~cSparseStaticLodChunk64Map()
+template< uint32_t N >
+cSparseMap< N >::~cSparseMap()
 {
     PurgeAllChunks();
 }
 
 
-cSparseStaticLodChunk64Map::cSparseStaticLodChunk64Map() :
+template< uint32_t N >
+cSparseMap< N >::cSparseMap() :
     mChunks(),
     mUseDebugColors( 1 )
 {
@@ -43,25 +45,28 @@ cSparseStaticLodChunk64Map::cSparseStaticLodChunk64Map() :
 //-------------------------------------------------------------------- Sparse Volume Information
 
 
+template< uint32_t N >
 cHashable3DKey
-cSparseStaticLodChunk64Map::KeyForIndices( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )  const
+cSparseMap< N >::KeyForIndices( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )  const
 {
-    tKeyComponent keyX = tKeyComponent( floor( double(iX) / 64. ) );
-    tKeyComponent keyY = tKeyComponent( floor( double(iY) / 64. ) );
-    tKeyComponent keyZ = tKeyComponent( floor( double(iZ) / 64. ) );
+    tKeyComponent keyX = tKeyComponent( floor( double(iX) / double( N ) ) );
+    tKeyComponent keyY = tKeyComponent( floor( double(iY) / double( N ) ) );
+    tKeyComponent keyZ = tKeyComponent( floor( double(iZ) / double( N ) ) );
     return  cHashable3DKey( keyX, keyY, keyZ );
 }
 
 
+template< uint32_t N >
 bool
-cSparseStaticLodChunk64Map::ChunkExists( const  cHashable3DKey&  iKey )  const
+cSparseMap< N >::ChunkExists( const  cHashable3DKey&  iKey )  const
 {
     return  ( ! ( mChunks.find( iKey.HashedSignature() ) == mChunks.end() ) );
 }
 
 
-cStaticLodChunk64*
-cSparseStaticLodChunk64Map::ChunkAtKey( const  cHashable3DKey&  iKey )
+template< uint32_t N >
+cLodSparseChunk< N >*
+cSparseMap< N >::ChunkAtKey( const  cHashable3DKey&  iKey )
 {
     auto it = mChunks.find( iKey.HashedSignature() );
     if( it != mChunks.end() )
@@ -74,15 +79,17 @@ cSparseStaticLodChunk64Map::ChunkAtKey( const  cHashable3DKey&  iKey )
 //----------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------ Chunk cmd
 
-cStaticLodChunk64*
-cSparseStaticLodChunk64Map::MkChunk( const  cHashable3DKey&  iKey )
+
+template< uint32_t N >
+cLodSparseChunk< N >*
+cSparseMap< N >::MkChunk( const  cHashable3DKey&  iKey )
 {
     static int debugColorIndex= 0;
 
     if( ChunkExists( iKey ) )
         return  ChunkAtKey( iKey );
 
-    auto chunk = new cStaticLodChunk64(0);
+    auto chunk = new cLodSparseChunk< N >();
     chunk->SetDebugColor( sgDebugColor[debugColorIndex%14] );
     debugColorIndex++;
     mChunks.emplace( iKey.HashedSignature(), chunk );
@@ -91,8 +98,9 @@ cSparseStaticLodChunk64Map::MkChunk( const  cHashable3DKey&  iKey )
 }
 
 
+template< uint32_t N >
 void
-cSparseStaticLodChunk64Map::RmChunk( const  cHashable3DKey&  iKey )
+cSparseMap< N >::RmChunk( const  cHashable3DKey&  iKey )
 {
     if( !ChunkExists( iKey ) )
         return;
@@ -104,8 +112,9 @@ cSparseStaticLodChunk64Map::RmChunk( const  cHashable3DKey&  iKey )
 }
 
 
+template< uint32_t N >
 void
-cSparseStaticLodChunk64Map::UpdateChunkNeighbours( const  cHashable3DKey&  iKey )
+cSparseMap< N >::UpdateChunkNeighbours( const  cHashable3DKey&  iKey )
 {
     auto chunk  = ChunkAtKey( iKey );           // can be NULL
     auto top    = ChunkAtKey( iKey.Top() );     // can be NULL
@@ -134,8 +143,9 @@ cSparseStaticLodChunk64Map::UpdateChunkNeighbours( const  cHashable3DKey&  iKey 
 }
 
 
+template< uint32_t N >
 void
-cSparseStaticLodChunk64Map::PurgeEmptyChunks()
+cSparseMap< N >::PurgeEmptyChunks()
 {
     for ( auto it : mChunks )
     {
@@ -146,8 +156,9 @@ cSparseStaticLodChunk64Map::PurgeEmptyChunks()
 }
 
 
+template< uint32_t N >
 void
-cSparseStaticLodChunk64Map::PurgeAllChunks()
+cSparseMap< N >::PurgeAllChunks()
 {
     std::vector< cHashable3DKey > toRemove;
     toRemove.reserve( mChunks.size() );
@@ -166,8 +177,9 @@ cSparseStaticLodChunk64Map::PurgeAllChunks()
 }
 
 
+template< uint32_t N >
 void
-cSparseStaticLodChunk64Map::UpdateChunksVBOs()
+cSparseMap< N >::UpdateChunksVBOs()
 {
     for ( auto it : mChunks )
     {
@@ -182,8 +194,9 @@ cSparseStaticLodChunk64Map::UpdateChunksVBOs()
 //------------------------------------------------------------------- Wrapping Inner Data Access
 
 
+template< uint32_t N >
 tByte
-cSparseStaticLodChunk64Map::operator()( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )
+cSparseMap< N >::operator()( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )
 {
     cHashable3DKey  key = KeyForIndices( iX, iY, iZ );
     tByte dataX = tByte( tKeyComponent( iX ) - key.GetX() * 64 );
@@ -194,8 +207,9 @@ cSparseStaticLodChunk64Map::operator()( tGlobalDataIndex iX, tGlobalDataIndex iY
 }
 
 
+template< uint32_t N >
 void
-cSparseStaticLodChunk64Map::SafeSetMaterial( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ, tByte iValue )
+cSparseMap< N >::SafeSetMaterial( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ, tByte iValue )
 {
     cHashable3DKey  key = KeyForIndices( iX, iY, iZ );
     auto chunk = MkChunk( key );
@@ -210,8 +224,9 @@ cSparseStaticLodChunk64Map::SafeSetMaterial( tGlobalDataIndex iX, tGlobalDataInd
 //------------------------------------------------------------------------------ Naive Rendering
 
 
+template< uint32_t N >
 void
-cSparseStaticLodChunk64Map::RenderVBOs( GLuint iShaderProgramID )
+cSparseMap< N >::RenderVBOs( GLuint iShaderProgramID )
 {
     int location = glGetUniformLocation( iShaderProgramID, "useDebugColor" );
     glUniform1i(location, mUseDebugColors );
@@ -230,5 +245,6 @@ cSparseStaticLodChunk64Map::RenderVBOs( GLuint iShaderProgramID )
     }
 }
 
+} // namespace  nDynamic
 } // namespace  nVolumetric
 

@@ -97,6 +97,9 @@
     <Filter Include="Fichiers sources\Volumetric\Dynamic">
       <UniqueIdentifier>{92938666-1d95-4805-9622-b77d0bc4086a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Volumetric\VLCROM">
+      <UniqueIdentifier>{e322109e-5c79-4306-a5ca-25983c91df54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\Application\Application.cpp">
@@ -294,14 +297,32 @@
     <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.LodSparseChunk.cpp">
       <Filter>Fichiers sources\Volumetric\Dynamic</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.HashableGlobal3DKey.cpp">
+    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.Hashable3DKey.cpp">
       <Filter>Fichiers sources\Volumetric\Dynamic</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.HashableLocal3DKey .cpp">
-      <Filter>Fichiers sources\Volumetric\Dynamic</Filter>
+    <ClCompile Include="..\..\..\src\Core\Volumetric\VLCROM\VLCROM.cpp">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.IndexedData.cpp">
-      <Filter>Fichiers sources\Volumetric\Dynamic</Filter>
+    <ClCompile Include="..\..\..\src\Core\Volumetric\VLCROM\SparseVLCROM.cpp">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Volumetric\VLCROM\OrderedVLCROM.cpp">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Volumetric\VLCROM\EntropicVLCROM.cpp">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Volumetric\VLCROM\FullVLCROM.cpp">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Volumetric\VLCROM\EmptyVLCROM.cpp">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Volumetric\VLCROM\RawVLCROM.cpp">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Volumetric\VLCROM\RLEVLCROM.cpp">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -503,14 +524,32 @@
     <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.LodSparseChunk.h">
       <Filter>Fichiers sources\Volumetric\Dynamic</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.HashableGlobal3DKey.h">
+    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.Hashable3DKey.h">
       <Filter>Fichiers sources\Volumetric\Dynamic</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.HashableLocal3DKey.h">
-      <Filter>Fichiers sources\Volumetric\Dynamic</Filter>
+    <ClInclude Include="..\..\..\src\Core\Volumetric\VLCROM\VLCROM.h">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Volumetric\Dynamic\Volumetric.Dynamic.IndexedData.h">
-      <Filter>Fichiers sources\Volumetric\Dynamic</Filter>
+    <ClInclude Include="..\..\..\src\Core\Volumetric\VLCROM\SparseVLCROM.h">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Volumetric\VLCROM\OrderedVLCROM.h">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Volumetric\VLCROM\EntropicVLCROM.h">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Volumetric\VLCROM\FullVLCROM.h">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Volumetric\VLCROM\EmptyVLCROM.h">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Volumetric\VLCROM\RawVLCROM.h">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Volumetric\VLCROM\RLEVLCROM.h">
+      <Filter>Fichiers sources\Volumetric\VLCROM</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Volumetric/Static/Types.h"
+#include "Volumetric.Dynamic.Types.h"
 
 
-namespace  nVolumetric
-{
+namespace  nVolumetric {
+namespace  nDynamic {
 
 
 class  cHashable3DKey
@@ -48,6 +48,6 @@ private:
 };
 
 
-
+} // namespace  nDynamic
 } // namespace  nVolumetric
 

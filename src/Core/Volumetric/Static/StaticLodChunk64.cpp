@@ -2,16 +2,19 @@
 #include "Volumetric/Static/VUtils.h"
 
 
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 namespace  nVolumetric
 {
 
 
-static  const  sf::Vector3f  sgUniformFaceNormals[6] = { sf::Vector3f(  0.f,    +1.f,   0.f     ),      // Top
-                                                         sf::Vector3f(  0.f,    -1.f,   0.f     ),      // Bot
-                                                         sf::Vector3f(  0.f,    0.f,    +1.f    ),      // Front
-                                                         sf::Vector3f(  0.f,    0.f,    -1.f    ),      // Back
-                                                         sf::Vector3f(  -1.f,   0.f,    0.f     ),      // Left
-                                                         sf::Vector3f(  +1.f,   0.f,    0.f     ) };    // Right
+static  const  glm::vec3     sgUniformFaceNormals[6] = { glm::vec3(  0.f,    +1.f,   0.f     ),      // Top
+                                                         glm::vec3(  0.f,    -1.f,   0.f     ),      // Bot
+                                                         glm::vec3(  0.f,    0.f,    +1.f    ),      // Front
+                                                         glm::vec3(  0.f,    0.f,    -1.f    ),      // Back
+                                                         glm::vec3(  -1.f,   0.f,    0.f     ),      // Left
+                                                         glm::vec3(  +1.f,   0.f,    0.f     ) };    // Right
 
 //----------------------------------------------------------------------------------------------
 //------------------------------------------------------------------- Construction / Destruction
@@ -270,10 +273,10 @@ cStaticLodChunk64::DrawVBOs( GLuint iShaderProgramID )
 {
     SendUniformDebugColor( iShaderProgramID );
     DrawVBO( eNF_Index::kIndexTop   , iShaderProgramID );
-    DrawVBO( eNF_Index::kIndexBot   , iShaderProgramID );
+    //DrawVBO( eNF_Index::kIndexBot   , iShaderProgramID );
     DrawVBO( eNF_Index::kIndexFront , iShaderProgramID );
-    DrawVBO( eNF_Index::kIndexBack  , iShaderProgramID );
-    DrawVBO( eNF_Index::kIndexLeft  , iShaderProgramID );
+    //DrawVBO( eNF_Index::kIndexBack  , iShaderProgramID );
+    //DrawVBO( eNF_Index::kIndexLeft  , iShaderProgramID );
     DrawVBO( eNF_Index::kIndexRight , iShaderProgramID );
 }
 

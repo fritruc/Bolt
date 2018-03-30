@@ -34,7 +34,7 @@ cSparseStaticLodChunk64Map::~cSparseStaticLodChunk64Map()
 
 cSparseStaticLodChunk64Map::cSparseStaticLodChunk64Map() :
     mChunks(),
-    mUseDebugColors( 1 )
+    mUseDebugColors( 0 )
 {
 }
 

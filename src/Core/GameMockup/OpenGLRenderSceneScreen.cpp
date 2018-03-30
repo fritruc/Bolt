@@ -67,9 +67,9 @@ cOpenGLRenderSceneScreen::Initialize()
     glViewport(0, 0, window->getSize().x, window->getSize().y);
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
-    glFrontFace(GL_CCW);
+    /*glFrontFace(GL_CCW);
     glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    glCullFace(GL_BACK);*/
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     double ratio = double(window->getSize().x) / double(window->getSize().y);
@@ -109,95 +109,20 @@ cOpenGLRenderSceneScreen::Initialize()
     };
 
     std::function< void( void )> g = [=]( void ) {
-        /*int st = 40;
-        for( int i = 0; i < st; ++i )
+        sf::Image* heightMap = new sf::Image();
+        heightMap->loadFromFile( "resources/Core/Images/HeightMaps/rift.png" );
+        int width = heightMap->getSize().x;
+        int height = heightMap->getSize().y;
+        int w2 = width / 2;
+        int h2 = height / 2;
+        for( int i = 0; i < width ; ++i )
         {
-            for( int k = 0; k < st; ++k )
-            {
-                int x = i - 20;
-                int y = 0;
-                int z = k - 20;
-                if( sqrt( x*x + z*z ) < 20.0 )
-                    mMap.SafeSetMaterial( x, y, z, ( 89 ) + 1 );
-            }
-        }
-
-        st = 10;
-        for( int i = 0; i < st; ++i )
-        {
-            for( int k = 0; k < st; ++k )
-            {
-                int x = i - 5;
-                int y = 10;
-                int z = k - 5;
-                mMap.SafeSetMaterial( x, y, z, ( 110 ) + 1 );
-            }
-        }
-
-        st = 10;
-        for( int i = 1; i < st; ++i )
-        {
-            mMap.SafeSetMaterial( -5, i, -5, ( 110 ) + 1 );
-            mMap.SafeSetMaterial( -5, i, +4, ( 110 ) + 1 );
-            mMap.SafeSetMaterial( +4, i, -5, ( 110 ) + 1 );
-            mMap.SafeSetMaterial( +4, i, +4, ( 110 ) + 1 );
-        }*/
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-
-
-        int ray = 7;
-        int diam = ray *2;
-        int n = 25;
-        int nshift = - n / 2;
-        int shift = - diam / 2;
-        int padding = diam;
-
-        for( int i = 0; i < n; ++i )
-        {
-                for( int k = 0; k < n; ++k )
+                for( int k = 0; k < height; ++k )
                 {
-                    float xbase = ( i + nshift ) * padding;
-                    float ybase = ( 10 );
-                    float zbase = ( k + nshift ) * padding;
-
-                    for( int l = 0; l < diam; ++l )
-                    {
-                        for( int m = 0; m < diam; ++m )
-                        {
-                            for( int o = 0; o < diam; ++o )
-                            {
-                                float x = ( l + shift );
-                                float y = ( m + shift );
-                                float z = ( o + shift );
-                                float lenght = sqrt( x*x + y*y + z*z );
-                                if( lenght < float( ray ) )
-                                    mMap.SafeSetMaterial( xbase + x, ybase + y, zbase + z, 14 );
-
-                            }
-                        }
-                    }
-
+                    int y = float( heightMap->getPixel( i, k ).r ) / 10.f  + 5;
+                    for( int j = 0; j < y; ++j )
+                        mMap.SafeSetMaterial( i -w2, j, k -h2, 255 );
                 }
-        }
-
-        ////////////////////////////////////////////////////////////////
-
-        int sak = 200;
-        for( int i = -sak; i < sak; ++i )
-        {
-            for( int j = -sak; j < sak; ++j )
-            {
-                for( int k = -sak; k < sak; ++k )
-                {
-                    float x = i;
-                    float y = j;
-                    float z = k;
-                    if(sqrt(x*x + y*y + z*z) < sak / 2)
-                        mMap.SafeSetMaterial( x, y, z, 12 );
-
-                }
-            }
         }
 
         mMap.UpdateChunksVBOs();
@@ -247,14 +172,17 @@ cOpenGLRenderSceneScreen::Draw( sf::RenderTarget* iRenderTarget )
 {
     auto window = ::cGameApplication::App()->Window();
     glClearDepth(1.f);
-    glClearColor(0.f, 0.f, 0.f, 0.f);
+    glClearColor(0.f, 0.5f, 1.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    int a = 0;
+    int a = 80544548588;
+    int c = 150588500;
+    int d = 97858978;
+    int e = 8545458;
     glTranslatef( 0.f, 0.f, -400.f );
     //glRotatef( mClock.getElapsedTime().asSeconds() * 50.f, 0.f, 0.f, -1.f );
-    glRotatef( 45.f, 1.f, 0.f, 0.f );
+    glRotatef( 10.5f, 1.f, 0.f, 0.f );
     glRotatef( mClock.getElapsedTime().asSeconds() * 20.f, 0.f, 1.f, 0.f );
 
     GLuint shaderProgramID = mShader.getProgramID();

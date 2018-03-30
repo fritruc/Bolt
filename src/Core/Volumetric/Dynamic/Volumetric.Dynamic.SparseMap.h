@@ -10,6 +10,7 @@
 namespace  nVolumetric {
 namespace  nDynamic {
 
+template< uint32_t N >
 class  cSparseMap
 {
 
@@ -21,13 +22,13 @@ public:
 
 public:
     // Sparse Volume Information
-    cHashable3DKey      KeyForIndices( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )  const;
-    bool                ChunkExists( const  cHashable3DKey&  iKey )                                     const;
-    cLodSparseChunk*  ChunkAtKey( const  cHashable3DKey&  iKey );
+    cHashable3DKey          KeyForIndices( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )  const;
+    bool                    ChunkExists( const  cHashable3DKey&  iKey )                                     const;
+    cLodSparseChunk< N >*   ChunkAtKey( const  cHashable3DKey&  iKey );
 
 public:
     // Chunk cmd
-    cLodSparseChunk*  MkChunk( const  cHashable3DKey&  iKey );
+    cLodSparseChunk< N >*   MkChunk( const  cHashable3DKey&  iKey );
     void  RmChunk( const  cHashable3DKey&  iKey );
     void  UpdateChunkNeighbours( const  cHashable3DKey&  iKey );
     void  PurgeEmptyChunks();
@@ -46,7 +47,7 @@ public:
 
 private:
     // Private Data Members
-    std::unordered_map< tHashableKeySignature, cLodSparseChunk* > mChunks; // Owning
+    std::unordered_map< tHashableKeySignature, cLodSparseChunk< N >* > mChunks; // Owning
     int  mUseDebugColors;
 };
 

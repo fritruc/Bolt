@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <cstdint>
+#include <glm/vec3.hpp>
 
 namespace  nVolumetric {
 namespace  nDynamic {
@@ -12,13 +13,14 @@ typedef  uint16_t   tUKeyComponent;         // 16 bits, [0, 65535]
 typedef  int16_t    tKeyComponent;          // 16 bits, [−32,767, +32,767]
 typedef  uint64_t   tHashableKeySignature;  // 64 bits, [0, +18,446,744,073,709,551,615]
 
-typedef  uint8_t    tLocalDataIndex;        // 8 bits.  [0, 255]
+typedef  uint16_t   tLocalDataIndex;        // 16 bits, [0, 65535]
 typedef  int32_t    tGlobalDataIndex;       // 32 bits, [−2,147,483,647, +2,147,483,647]
 
 typedef  uint32_t   tBufferDataIndex;       // 32 bits, [0, 4,294,967,295]
 
 
 static  const  int  sgElementSize = sizeof( glm::vec3 );
+static  const  tHashableKeySignature    sgSignedKeyComponentRangeShift= 0x7FFF;
 
 
 #ifndef BUFFER_OFFSET

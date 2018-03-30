@@ -1,4 +1,6 @@
 #include "Volumetric.Dynamic.LodSparseChunk.h"
+
+
 #include "Volumetric.Dynamic.Utils.h"
 
 
@@ -6,23 +8,19 @@ namespace  nVolumetric {
 namespace  nDynamic {
 
 
-static  const  sf::Vector3f  sgUniformFaceNormals[6] = { sf::Vector3f(  0.f,    +1.f,   0.f     ),      // Top
-                                                         sf::Vector3f(  0.f,    -1.f,   0.f     ),      // Bot
-                                                         sf::Vector3f(  0.f,    0.f,    +1.f    ),      // Front
-                                                         sf::Vector3f(  0.f,    0.f,    -1.f    ),      // Back
-                                                         sf::Vector3f(  -1.f,   0.f,    0.f     ),      // Left
-                                                         sf::Vector3f(  +1.f,   0.f,    0.f     ) };    // Right
-
 //----------------------------------------------------------------------------------------------
 //------------------------------------------------------------------- Construction / Destruction
 
-cLodSparseChunk::~cLodSparseChunk()
+
+template< uint32_t N >
+cLodSparseChunk< N >::~cLodSparseChunk()
 {
     DestroyVBOs();
 }
 
 
-cLodSparseChunk::cLodSparseChunk() :
+template< uint32_t N >
+cLodSparseChunk< N >::cLodSparseChunk() :
     mOccupiedVolume( 0 ),
     mNVerticesVBOElem( 0 ),
     mDebugColor( sf::Vector3f() )
@@ -35,36 +33,41 @@ cLodSparseChunk::cLodSparseChunk() :
 //--------------------------------------------------------------------------- Volume Information
 
 
+template< uint32_t N >
 uint16_t
-cLodSparseChunk::Size()  const
+cLodSparseChunk< N >::Size()  const
 {
     return  N;
 }
 
 
+template< uint32_t N >
 uint32_t
-cLodSparseChunk::Capacity()  const
+cLodSparseChunk< N >::Capacity()  const
 {
     return  mCapacity;
 }
 
 
+template< uint32_t N >
 uint32_t
-cLodSparseChunk::OccupiedVolume()  const
+cLodSparseChunk< N >::OccupiedVolume()  const
 {
     return  mOccupiedVolume;
 }
 
 
+template< uint32_t N >
 bool
-cLodSparseChunk::IsFull()  const
+cLodSparseChunk< N >::IsFull()  const
 {
     return  mOccupiedVolume == mCapacity;
 }
 
 
+template< uint32_t N >
 bool
-cLodSparseChunk::IsEmpty()  const
+cLodSparseChunk< N >::IsEmpty()  const
 {
     return  mOccupiedVolume == 0;
 }
@@ -74,8 +77,9 @@ cLodSparseChunk::IsEmpty()  const
 //-------------------------------------------------------------------------- Volume Manipulation
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::Fill(tByte iVal)
+cLodSparseChunk< N >::Fill(tByte iVal)
 {
     for( tLocalDataIndex  i = 0; i < N; ++i )
     {
@@ -84,7 +88,7 @@ cLodSparseChunk::Fill(tByte iVal)
             for( tLocalDataIndex  k = 0; k < N; ++k )
             {
                 //TODO: Check with correct Hashable Local 3D Key
-                mData.emplace( 0, iVal );
+                mData[i][j][k] = iVal;
             }
         }
     }
@@ -100,47 +104,27 @@ cLodSparseChunk::Fill(tByte iVal)
 //--------------------------------------------------------------------------- Material Accessors
 
 
+template< uint32_t N >
 bool
-cLodSparseChunk::IsSolid( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ )  const
+cLodSparseChunk< N >::IsSolid( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ )  const
 {
-    auto it = mData.find( 0 );
-    if( it == mData.end() )
-        return  false;
-
-    return  bool( it->second );
+    return  bool( mData[iX][iY][iZ] );
 }
 
 
+template< uint32_t N >
 tByte
-cLodSparseChunk::GetMaterial( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ )  const
+cLodSparseChunk< N >::GetMaterial( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ )  const
 {
-    auto it = mData.find( 0 );
-    if( it == mData.end() )
-        return  false;
-
-    return  it->second;
+    return  mData[iX][iY][iZ];
 }
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::SetMaterial( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ, tByte iValue )
+cLodSparseChunk< N >::SetMaterial( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ, tByte iValue )
 {
-    tByte oldMat = GetMaterial( iX, iY, iZ );
-    mData.emplace( 0, iValue );
-
-    tByte flag = tByte( bool( oldMat ) ) << 1 | tByte( bool( iValue ) );
-    // Bitfield manipulation:
-    // 11   old solid - new solid   - 3 - no change
-    // 10   old solid - new empty   - 2 - decrease occupied volume
-    // 01   old empty - new solid   - 1 - increase occupied volume
-    // 00   old empty - new empty   - 0 - no change
-    if( flag == 2 ) --mOccupiedVolume;
-    if( flag == 1 ) ++mOccupiedVolume;
-
-    if( flag == 1 || flag == 2 )    // Update neighbours in case of change
-    {
-        UpdateDataNeighbours( iX, iY, iZ );
-    }
+    mData[iX][iY][iZ] = iValue;
 }
 
 
@@ -148,14 +132,17 @@ cLodSparseChunk::SetMaterial( tLocalDataIndex iX, tLocalDataIndex iY, tLocalData
 //-------------------------------------------------------------------------- Neighbour Accessors
 
 
-cLodSparseChunk*
-cLodSparseChunk::GetNeighbour( eNeighbourFace_Index  iNeighbour )  const
+template< uint32_t N >
+cLodSparseChunk< N >*
+cLodSparseChunk< N >::GetNeighbour( eNeighbourFace_Index  iNeighbour )  const
 {
     return  mNeighbour[ int( iNeighbour ) ];
 }
 
 
-void cLodSparseChunk::SetNeighbour( eNeighbourFace_Index iNeighbour, cLodSparseChunk* iAdress )
+template< uint32_t N >
+void
+cLodSparseChunk< N >::SetNeighbour( eNeighbourFace_Index iNeighbour, cLodSparseChunk* iAdress )
 {
     mNeighbour[ int( iNeighbour ) ] = iAdress;
 }
@@ -165,71 +152,17 @@ void cLodSparseChunk::SetNeighbour( eNeighbourFace_Index iNeighbour, cLodSparseC
 //---------------------------------------------------------------------------- Data Manipulation
 
 
+template< uint32_t N >
 tByte*
-cLodSparseChunk::DataHandle( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ )
+cLodSparseChunk< N >::DataHandle( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ )
 {
-    auto it = mData.find( 0 );
-    if( it == mData.end() )
-        return  NULL;
-
-    return  &it->second;
+    return  &mData[iX][iY][iZ];
 }
 
 
-void
-cLodSparseChunk::UpdateDataNeighbours( tLocalDataIndex iX, tLocalDataIndex iY, tLocalDataIndex iZ )
-{
-    /*
-    cData* currentHandle    = DataHandle( iX, iY, iZ );
-    bool  currentIsSolid    = currentHandle->IsSolid();
-    cData* topDataHandle    = GetSafeExternDataHandle( iX,     iY+1,   iZ      );
-    cData* botDataHandle    = GetSafeExternDataHandle( iX,     iY-1,   iZ      );
-    cData* frontDataHandle  = GetSafeExternDataHandle( iX,     iY,     iZ+1    );
-    cData* backDataHandle   = GetSafeExternDataHandle( iX,     iY,     iZ-1    );
-    cData* leftDataHandle   = GetSafeExternDataHandle( iX-1,   iY,     iZ      );
-    cData* rightDataHandle  = GetSafeExternDataHandle( iX+1,   iY,     iZ      );
-
-    if( topDataHandle )
-    {
-        currentHandle->SetNeighbour( eNF_Flag::kFlagTop, topDataHandle->IsSolid() );
-        topDataHandle->SetNeighbour( eNF_Flag::kFlagBot, currentIsSolid );
-    }
-
-    if( botDataHandle )
-    {
-        currentHandle->SetNeighbour( eNF_Flag::kFlagBot, botDataHandle->IsSolid() );
-        botDataHandle->SetNeighbour( eNF_Flag::kFlagTop, currentIsSolid );
-    }
-
-    if( frontDataHandle )
-    {
-        currentHandle->SetNeighbour( eNF_Flag::kFlagFront, frontDataHandle->IsSolid() );
-        frontDataHandle->SetNeighbour( eNF_Flag::kFlagBack, currentIsSolid );
-    }
-
-    if( backDataHandle )
-    {
-        currentHandle->SetNeighbour( eNF_Flag::kFlagBack, backDataHandle->IsSolid() );
-        backDataHandle->SetNeighbour( eNF_Flag::kFlagFront, currentIsSolid );
-    }
-
-    if( leftDataHandle )
-    {
-        currentHandle->SetNeighbour( eNF_Flag::kFlagLeft, leftDataHandle->IsSolid() );
-        leftDataHandle->SetNeighbour( eNF_Flag::kFlagRight, currentIsSolid );
-    }
-
-    if( rightDataHandle )
-    {
-        currentHandle->SetNeighbour( eNF_Flag::kFlagRight, rightDataHandle->IsSolid() );
-        rightDataHandle->SetNeighbour( eNF_Flag::kFlagLeft, currentIsSolid );
-    }
-    */
-}
-
-
+template< uint32_t N >
 tByte*
-cLodSparseChunk::GetSafeExternDataHandle( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )
+cLodSparseChunk< N >::GetSafeExternDataHandle( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )
 {
     auto chunk = GetSafeExternChunkHandle( iX, iY, iZ );
     if( !chunk )
@@ -243,8 +176,9 @@ cLodSparseChunk::GetSafeExternDataHandle( tGlobalDataIndex iX, tGlobalDataIndex 
 }
 
 
- cLodSparseChunk*
-cLodSparseChunk::GetSafeExternChunkHandle( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )
+template< uint32_t N >
+ cLodSparseChunk< N >*
+cLodSparseChunk< N >::GetSafeExternChunkHandle( tGlobalDataIndex iX, tGlobalDataIndex iY, tGlobalDataIndex iZ )
 {
     if( ( iX >= 0 && iX < N ) &&
         ( iY >= 0 && iY < N ) &&
@@ -270,8 +204,9 @@ cLodSparseChunk::GetSafeExternChunkHandle( tGlobalDataIndex iX, tGlobalDataIndex
 //------------------------------------------------------------------------------ Naive Rendering
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::DrawVBOs( GLuint iShaderProgramID )
+cLodSparseChunk< N >::DrawVBOs( GLuint iShaderProgramID )
 {
     SendUniformDebugColor( iShaderProgramID );
     DrawVBO( eNeighbourFace_Index::kTop   , iShaderProgramID );
@@ -283,8 +218,9 @@ cLodSparseChunk::DrawVBOs( GLuint iShaderProgramID )
 }
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::SetDebugColor( const  sf::Vector3f& iDebugColor )
+cLodSparseChunk< N >::SetDebugColor( const  glm::vec3& iDebugColor )
 {
     mDebugColor = iDebugColor;
 }
@@ -294,8 +230,9 @@ cLodSparseChunk::SetDebugColor( const  sf::Vector3f& iDebugColor )
 //-------------------------------------------------------------------------------- VBO Interface
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::UpdateVBOs()
+cLodSparseChunk< N >::UpdateVBOs()
 {
     UpdateVBO( eNeighbourFace_Index::kTop );
     UpdateVBO( eNeighbourFace_Index::kBot );
@@ -310,8 +247,9 @@ cLodSparseChunk::UpdateVBOs()
 //--------------------------------------------------------------- Private OpenGL Object Building
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::InitVBOs()
+cLodSparseChunk< N >::InitVBOs()
 {
     glGenBuffers( 6, mVBO_ID );
     glBindBuffer( GL_ARRAY_BUFFER, mVBO_ID[ int( eNeighbourFace_Index::kTop ) ] );
@@ -330,15 +268,17 @@ cLodSparseChunk::InitVBOs()
 }
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::DestroyVBOs()
+cLodSparseChunk< N >::DestroyVBOs()
 {
     glDeleteBuffers( 6, mVBO_ID );
 }
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::UpdateVBO( eNeighbourFace_Index  iVBO_ID_index )
+cLodSparseChunk< N >::UpdateVBO( eNeighbourFace_Index  iVBO_ID_index )
 {
     if(glIsBuffer( mVBO_ID[ int( iVBO_ID_index ) ] ) == GL_TRUE)
         glDeleteBuffers( 1, &mVBO_ID[ int( iVBO_ID_index ) ] );
@@ -403,8 +343,9 @@ cLodSparseChunk::UpdateVBO( eNeighbourFace_Index  iVBO_ID_index )
 //-------------------------------------------------------------- Private OpenGL Object Rendering
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::DrawVBO( eNeighbourFace_Index  iVBO_ID_index, GLuint iShaderProgramID )
+cLodSparseChunk< N >::DrawVBO( eNeighbourFace_Index  iVBO_ID_index, GLuint iShaderProgramID )
 {
     SendUniformNormal( iVBO_ID_index, iShaderProgramID );
 
@@ -425,8 +366,9 @@ cLodSparseChunk::DrawVBO( eNeighbourFace_Index  iVBO_ID_index, GLuint iShaderPro
 }
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::SendUniformNormal( eNeighbourFace_Index  iVBO_ID_index, GLuint iShaderProgramID  )
+cLodSparseChunk< N >::SendUniformNormal( eNeighbourFace_Index  iVBO_ID_index, GLuint iShaderProgramID  )
 {
     int location = glGetUniformLocation( iShaderProgramID, "normal" );
     auto normal = sgUniformFaceNormals[ int( iVBO_ID_index ) ];
@@ -434,8 +376,9 @@ cLodSparseChunk::SendUniformNormal( eNeighbourFace_Index  iVBO_ID_index, GLuint 
 }
 
 
+template< uint32_t N >
 void
-cLodSparseChunk::SendUniformDebugColor( GLuint iShaderProgramID  )
+cLodSparseChunk< N >::SendUniformDebugColor( GLuint iShaderProgramID  )
 {
     int location = glGetUniformLocation( iShaderProgramID, "debugColor" );
     glUniform3f(location, mDebugColor.x, mDebugColor.y, mDebugColor.z );

@@ -85,6 +85,7 @@ private:
     cStaticLodChunk64*              mNeighbour[6] = { 0, 0, 0, 0, 0, 0 };   // six neighbours
     cData                           mData[msSize][msSize][msSize];          // data
     GLuint                          mVBO_ID[6] = { 0, 0, 0, 0, 0, 0 };
+    GLuint                          mVAO_ID[6] = { 0, 0, 0, 0, 0, 0 };
     GLuint                          mNVerticesVBOElem;
     GLuint                          mNColorsVBOElem;
     static  const  int              msElementSize = sizeof( sf::Vector3f );
