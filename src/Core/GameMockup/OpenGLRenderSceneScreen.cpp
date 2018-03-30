@@ -119,7 +119,7 @@ cOpenGLRenderSceneScreen::Initialize()
         {
                 for( int k = 0; k < height; ++k )
                 {
-                    int y = float( heightMap->getPixel( i, k ).r ) / 10.f  + 5;
+                    int y = float( heightMap->getPixel( i, k ).r ) / 3.f + 5;
                     for( int j = 0; j < y; ++j )
                         mMap.SafeSetMaterial( i -w2, j, k -h2, 255 );
                 }
@@ -176,13 +176,13 @@ cOpenGLRenderSceneScreen::Draw( sf::RenderTarget* iRenderTarget )
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    int a = 80544548588;
-    int c = 150588500;
-    int d = 97858978;
+    int a = 808;
+    int c = 150085;
+    int d = 978;
     int e = 8545458;
     glTranslatef( 0.f, 0.f, -400.f );
     //glRotatef( mClock.getElapsedTime().asSeconds() * 50.f, 0.f, 0.f, -1.f );
-    glRotatef( 10.5f, 1.f, 0.f, 0.f );
+    glRotatef( 18.5f, 1.f, 0.f, 0.f );
     glRotatef( mClock.getElapsedTime().asSeconds() * 20.f, 0.f, 1.f, 0.f );
 
     GLuint shaderProgramID = mShader.getProgramID();
