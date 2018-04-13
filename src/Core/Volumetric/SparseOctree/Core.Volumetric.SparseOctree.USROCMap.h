@@ -6,7 +6,6 @@
 
 #include "Core.Volumetric.SparseOctree.Types.h"
 #include "Core.Volumetric.SparseOctree.Hashable3DKey.h"
-#include "Core.Volumetric.SparseOctree.RootROMSChunk.h"
 #include "Core.Volumetric.SparseOctree.ROMSConfig.h"
 
 
@@ -14,31 +13,37 @@ namespace  nVolumetric      {
 namespace  nSparseOctree    {
 
 
-template< eLod2N Macro, eLod2N VBO, eLod2N Micro, typename Atomic >
+template< class __PARENT, eLod2N __INTRINSIC_LOD, typename __ATOMIC >
+class  cData;
+
+
+template< eLod2N MACRO, eLod2N VBO, eLod2N MICRO, typename __ATOMIC >
 class  cUSROCMap final
 {
+private:
+    // Macro Data Chunk Typedef
+    typedef  cData< cUSROCMap< MACRO, VBO, MICRO, __ATOMIC >, MACRO, __ATOMIC >  tChunk;
 
 public:
     // Construction / Destruction
     ~cUSROCMap();
     cUSROCMap();
-    cUSROCMap( const  cUSROCMap& ) = delete;
+    cUSROCMap( const  cUSROCMap& ) = delete; // Not-Allowed
 
 public:
     // Accessors
-    const  Atomic&  Get( tGlobalIndex iX, tGlobalIndex iY, tGlobalIndex iZ )  const;
-    void  Set( tGlobalIndex iX, tGlobalIndex iY, tGlobalIndex iZ, Atomic  iValue );
+    __ATOMIC*   Data( int32_t iX, int32_t iY, int32_t iZ );
+    void        Write( int32_t iX, int32_t iY, int32_t iZ, __ATOMIC iValue );
 
 private:
     // Sparse Volume Information
-    cHashable3DKey      KeyForIndices( tGlobalIndex iX, tGlobalIndex iY, tGlobalIndex iZ )  const;
-    bool                ChunkExists( const  cHashable3DKey&  iKey )  const;
-    cROMSChunk< Macro, Atomic >*  ChunkAtKey( const  cHashable3DKey&  iKey )  const;
+    cHashable3DKey  KeyForCoordinates( int32_t iX, int32_t iY, int32_t iZ )  const;
+    tChunk*         ChunkAtKey( const  cHashable3DKey&  iKey )  const;
 
 private:
     // Chunk Manipulation
-    cROMSChunk< Macro, Atomic >*  MkChunk( const  cHashable3DKey&  iKey );
-    void  RmChunk( const  cHashable3DKey&  iKey );
+    tChunk* MkChunk( const  cHashable3DKey&  iKey );
+    void    RmChunk( const  cHashable3DKey&  iKey );
 
 public:
     // VBO Related
@@ -50,8 +55,9 @@ public:
 
 private:
     // Private Member Data
+    const  int16_t  mMACRO_Size = static_cast< int16_t >( MACRO );
     const  cROMSConfig  mROMSConfig; // Owning
-    std::unordered_map< tHashableKeySignature, cRootROMSChunk< Macro, VBO, Micro, Atomic >* >  mChunks; // Owning
+    std::unordered_map< uint64_t, tChunk* >  mChunks; // Owning
 
 };
 

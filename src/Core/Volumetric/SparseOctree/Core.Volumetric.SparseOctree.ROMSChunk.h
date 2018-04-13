@@ -6,11 +6,6 @@
 #include "Core.Volumetric.SparseOctree.DataConverterProtocol.h"
 
 
-#include <GL/glew.h>
-#include <gl/GLU.h>
-#include <SFML/OpenGL.hpp>
-
-
 namespace  nVolumetric      {
 namespace  nSparseOctree    {
 
@@ -19,7 +14,7 @@ namespace  nSparseOctree    {
 class  cROMSConfig;
 
 
-template< eLod2N LOD, typename Atomic >
+template< class __PARENT, typename __ATOMIC >
 class  cROMSChunk :
     public cDataConverterProtocol
 {
@@ -27,7 +22,7 @@ class  cROMSChunk :
 public:
     // Construction / Destruction
     virtual  ~cROMSChunk();
-    cROMSChunk( const  cROMSConfig*  iROMSConfig, eType iDataStartType = eType::kEmpty, const  Atomic& iStartValue = Atomic( 0 ) );
+    cROMSChunk( __PARENT* iParent, const  cROMSConfig*  iROMSConfig, eType iDataStartType = eType::kEmpty, const  Atomic& iStartValue = Atomic( 0 ) );
     cROMSChunk( const  cROMSChunk& ) = delete;
 
 public:

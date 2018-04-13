@@ -5,24 +5,27 @@
 #include <cassert>
 
 
-namespace  nVolumetric      {
-namespace  nSparseOctree    {
+namespace  nVolumetric {
+namespace  nDynamicOctree {
 
 
 typedef  uint8_t    tByte;
 typedef  uint16_t   t2Byte;
 typedef  uint16_t   tIndex;
-
+typedef  int16_t    tKeyComponent;
 typedef  uint16_t   tSize;
 typedef  int32_t    tGlobalIndex;
 typedef  uint64_t   tVolume;
+typedef  uint64_t   tLargeByteSize;
 
-static  const  uint64_t  sgSignedKeyComponentRangeShift= 0x7FFF;
+typedef  uint64_t   tHashableKeySignature;
+static  const  tHashableKeySignature  sgSignedKeyComponentRangeShift= 0x7FFF;
 
-
-// Level Of Detail (LOD) Enum
-enum  eLod2N : uint16_t
+enum  eLod2N : t2Byte
 {
+    kLod0       = 0,
+    kLod1       = 1,
+    kLod2       = 2,
     kLod4       = 4,
     kLod8       = 8,
     kLod16      = 16,
@@ -34,17 +37,6 @@ enum  eLod2N : uint16_t
     kLod1024    = 1024,
 };
 
-
-// Runtime Data Information Enum
-enum  eDataType
-{
-    kEmpty,
-    kFull,
-    kSparse,
-    kRaw
-};
-
-
-}  // namespace  nSparseOctree
-}  // namespace  nVolumetric
+} // namespace  nDynamicOctree
+} // namespace  nVolumetric
 

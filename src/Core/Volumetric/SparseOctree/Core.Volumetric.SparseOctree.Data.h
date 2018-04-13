@@ -2,8 +2,7 @@
 
 
 #include "Core.Volumetric.SparseOctree.Types.h"
-#include "Core.Volumetric.SparseOctree.ROMSConfig.h"
-#include "Core.Volumetric.SparseOctree.Utils.h"
+#include "Core.Volumetric.SparseOctree.Simple3DKey.h"
 
 
 #include <glm/vec3.hpp>
@@ -13,107 +12,56 @@ namespace  nVolumetric      {
 namespace  nSparseOctree    {
 
 
-// Runtime Information Enums
-enum  eType
-{
-    kEmpty,
-    kFull,
-    kSparse,
-    kRaw,
-    kRLE,
-};
+struct  cDataReportAnalysis;
+class   cROMSConfig;
 
 
-// PreCheckAnalysis Spider Struct
-struct  cDataReportAnalysis
-{
-    enum  eConversionOperationStatus
-    {
-        kRequired,
-        kNotRequired,
-    };
-
-    enum  eProcessOperationStatus
-    {
-        kProcess,
-        kDiscard,
-    };
-
-    cDataReportAnalysis( eConversionOperationStatus iConversionOperationStatus,
-                         eProcessOperationStatus    iProcessOperationStatus,
-                         eType       iFromType,
-                         eType       iToType ) :
-    mConversionOperationStatus( iConversionOperationStatus ),
-    mProcessOperationStatus( iProcessOperationStatus ),
-    mFromType( iFromType ),
-    mToType( iToType )
-    {
-    }
-
-    cDataReportAnalysis( eConversionOperationStatus iConversionOperationStatus,
-                         eProcessOperationStatus    iProcessOperationStatus ) :
-    mConversionOperationStatus( iConversionOperationStatus ),
-    mProcessOperationStatus( iProcessOperationStatus ),
-    mFromType( eType() ),
-    mToType( eType() )
-    {
-    }
-
-    eConversionOperationStatus  mConversionOperationStatus;
-    eProcessOperationStatus     mProcessOperationStatus;
-    eType       mFromType;
-    eType       mToType;
-
-};
-
-
-template< eLod2N LOD, typename Atomic >
-class  cROMSChunk;
-
-
-template< eLod2N LOD, typename Atomic >
+template< class __PARENT, eLod2N __INTRINSIC_LOD, typename __ATOMIC >
 class  cData
 {
 
 public:
     // Construction / Destruction
     virtual  ~cData();
-    cData( cROMSChunk< LOD, Atomic >*  iParent, const  cROMSConfig*  iROMSConfig );
-    cData( const  cData& ) = delete;
+    cData( __PARENT*  iParent, const  cROMSConfig*  iROMSConfig, const  cSimple3DKey&  iAttributeKey );
+    cData( const  cData& ) = delete; // Not-Allowed
 
 public:
     // Pure Virtual Runtime Information
-    virtual  bool       Compressed()    const  = 0;
-    virtual  eType      Type()          const  = 0;
+    virtual  eDataType  Type()  const  = 0;
 
 public:
     // Template Data Container Accessors
-    eLod2N      LODLevel()  const;
-    tSize       Size()      const;
-    float       Sizef()      const;
-    tVolume     Capacity()  const;
+    eLod2N      Intrinsic_LOD()  const;
+    int16_t     Intrinsic_LOD_Size()  const;
+    uint64_t    Capacity()  const;
 
     const  cROMSConfig&  ROMSConfig()  const;
+    const  cSimple3DKey&  AttributeKey()  const;
 
 public:
     // Data Accessors
-    virtual  const  Atomic*  Get( tIndex iX, tIndex iY, tIndex iZ )  const          = 0;
-    virtual  void  Set( tIndex iX, tIndex iY, tIndex iZ, const  Atomic&  iValue )   = 0;
+    virtual  __ATOMIC  DefaultValue();
+    virtual  __ATOMIC*  Data( uint16_t iX, uint16_t iY, uint16_t iZ )  = 0;
+    virtual  void  Write( uint16_t iX, uint16_t iY, uint16_t iZ, const  __ATOMIC&  iValue )  = 0;
 
 public:
     // Data Transform Analysis
-    virtual  cDataReportAnalysis  AnteriorReportAnalysisOnSet( tIndex iX, tIndex iY, tIndex iZ, const  Atomic&  iValue )  = 0;
-    virtual  cDataReportAnalysis  PosteriorReportAnalysisOnSet( tIndex iX, tIndex iY, tIndex iZ, const  Atomic&  iValue )  = 0;
+    virtual  cDataReportAnalysis  AnteriorReportAnalysisOnSet( uint16_t iX, uint16_t iY, uint16_t iZ, const  __ATOMIC&  iValue )  = 0;
+    virtual  cDataReportAnalysis  PosteriorReportAnalysisOnSet( uint16_t iX, uint16_t iY, uint16_t iZ, const  __ATOMIC&  iValue )  = 0;
 
 public:
-    virtual  glm::vec3  OctDebugColor();
-    virtual  void  RenderOctDebug();
+    // Debug Rendering
+    virtual  glm::vec3  WireFrameColor();
+    virtual  void  RenderWireFrameStructure();
 
 private:
     // Private Member Data
-    const  tVolume  mCapacity  = ( LOD * LOD * LOD );
-    const  cROMSConfig*  mROMSConfig; // Non-Owning
-    cROMSChunk< LOD, Atomic >*  mParent; // Non-Owning
+    __PARENT*               mParent; // Non-Owning
+    const  cROMSConfig*     mROMSConfig; // Non-Owning
+    const  cSimple3DKey     mAttributeKey;
+    const  int16_t          mLOD_Size = static_cast< int16_t >( __INTRINSIC_LOD );
+    const  uint64_t         mCapacity = mLOD_size * mLOD_size * mLOD_size;
 
 };
 

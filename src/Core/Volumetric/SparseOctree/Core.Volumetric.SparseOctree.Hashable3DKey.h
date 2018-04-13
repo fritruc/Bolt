@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include "Core.Volumetric.SparseOctree.Simple3DKey.h"
 #include "Core.Volumetric.SparseOctree.Types.h"
 
 
@@ -8,25 +9,17 @@ namespace  nVolumetric      {
 namespace  nSparseOctree    {
 
 
-class  cHashable3DKey
+class  cHashable3DKey :
+    public  cSimple3DKey
 {
 
 public:
-    cHashable3DKey( tKeyComponent iX, tKeyComponent iY, tKeyComponent iZ );
-    cHashable3DKey( tHashableKeySignature iHashedSignature );
+    cHashable3DKey( int16_t iX, int16_t iY, int16_t iZ );
+    cHashable3DKey( uint64_t iHashedSignature );
 
 public:
-    void  Set( tKeyComponent iX, tKeyComponent iY, tKeyComponent iZ );
-    void  Set( tHashableKeySignature iHashedSignature );
-    void  SetX( tKeyComponent iValue );
-    void  SetY( tKeyComponent iValue );
-    void  SetZ( tKeyComponent iValue );
-
-    tKeyComponent  GetX()  const;
-    tKeyComponent  GetY()  const;
-    tKeyComponent  GetZ()  const;
-
-    const  tHashableKeySignature&  HashedSignature()  const;
+    void  Set( uint64_t iHashedSignature );
+    const  uint64_t&  HashedSignature()  const;
 
     cHashable3DKey  Top()  const;
     cHashable3DKey  Bot()  const;
@@ -41,11 +34,8 @@ private:
 
 private:
     // Private Data Members
-    tKeyComponent  mX;
-    tKeyComponent  mY;
-    tKeyComponent  mZ;
     mutable  bool  mCacheValid;
-    mutable  tHashableKeySignature  mCachedHashedSignature;
+    mutable  uint64_t  mCachedHashedSignature;
 
 };
 

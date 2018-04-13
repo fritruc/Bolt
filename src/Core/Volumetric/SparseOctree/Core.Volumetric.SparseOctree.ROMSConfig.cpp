@@ -12,66 +12,35 @@ cROMSConfig::~cROMSConfig()
 }
 
 
-cROMSConfig::cROMSConfig( const  eLod2N&  iMacroscopicLODGranularity,
-                          const  eLod2N&  iVBO_LODGranularity,
-                          const  eLod2N&  iMicroscopicLODGranularity,
-                          const  tLargeByteSize&  iGPU_BUS_MAX ) :
-    mMacroscopicLODGranularity( iMacroscopicLODGranularity ),
-    mVBO_LODGranularity( iVBO_LODGranularity ),
-    mMicroscopicLODGranularity( iMicroscopicLODGranularity ),
-    mGPU_BUS_MAX( iGPU_BUS_MAX )
+cROMSConfig::cROMSConfig( const  eLod2N&  iMACRO_LOD,
+                          const  eLod2N&  iVBO_LOD,
+                          const  eLod2N&  iMICRO_LOD ) :
+    mMACRO_LOD( iMACRO_LOD ),
+    mVBO_LOD( iVBO_LOD ),
+    mMICRO_LOD( iMICRO_LOD )
 {
-    assert( mMacroscopicLODGranularity > mMicroscopicLODGranularity );
+    assert( mMACRO_LOD >= mVBO_LOD );
+    assert( mVBO_LOD >= mMICRO_LOD );
 }
 
 
 const  eLod2N&
-cROMSConfig::MacroscopicLODGranularity()  const
+cROMSConfig::MACRO_LOD()  const
 {
-    return  mMacroscopicLODGranularity;
+    return  mMACRO_LOD;
 }
 
 
 const  eLod2N&
-cROMSConfig::VBOLODGranularity()  const
+cROMSConfig::VBO_LOD()  const
 {
-    return  mVBO_LODGranularity;
+    return  mVBO_LOD;
 }
 
 const  eLod2N&
-cROMSConfig::MicroscopicLODGranularity()  const
+cROMSConfig::MICRO_LOD()  const
 {
-    return  mMicroscopicLODGranularity;
-}
-
-
-const  tLargeByteSize&
-cROMSConfig::GPU_BUS_MAX()  const
-{
-    return  mGPU_BUS_MAX;
-}
-
-
-void
-cROMSConfig::MacroscopicLODGranularity(const eLod2N & iMacroscopicLODGranularity)
-{
-    mMacroscopicLODGranularity = iMacroscopicLODGranularity;
-    assert( mMacroscopicLODGranularity > mMicroscopicLODGranularity );
-}
-
-
-void
-cROMSConfig::MicroscopicLODGranularity(const eLod2N & iMacroscopicLODGranularity)
-{
-    mMicroscopicLODGranularity = iMacroscopicLODGranularity;
-    assert( mMacroscopicLODGranularity > mMicroscopicLODGranularity );
-}
-
-
-void
-cROMSConfig::GPU_BUS_MAX(const tLargeByteSize & iGPU_BUS_MAX)
-{
-    mGPU_BUS_MAX = iGPU_BUS_MAX;
+    return  mMICRO_LOD;
 }
 
 

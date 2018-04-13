@@ -1,9 +1,8 @@
 #include "Core.Volumetric.SparseOctree.Data.h"
 
 
-#include <GL/glew.h>
-#include <gl/GLU.h>
-#include <SFML/OpenGL.hpp>
+#include "Core.Volumetric.SparseOctree.ROMSConfig.h"
+#include "Core.Volumetric.SparseOctree.Utils.h"
 
 
 namespace  nVolumetric      {
@@ -14,18 +13,21 @@ namespace  nSparseOctree    {
 //------------------------------------------------------------------- Construction / Destruction
 
 
-template<eLod2N LOD,typename Atomic>
-inline cData<LOD,Atomic>::~cData()
+template< class __PARENT, eLod2N __LOD, typename __ATOMIC >
+inline
+cData<LOD,Atomic>::~cData()
 {
     mROMSConfig = 0; // Non-Owning
     mParent = 0; // Non-Owning
 }
 
 
-template<eLod2N LOD,typename Atomic>
-inline cData<LOD,Atomic>::cData( cROMSChunk< LOD, Atomic >*  iParent, const cROMSConfig * iROMSConfig ) :
+template< class __PARENT, eLod2N __LOD, typename __ATOMIC >
+inline
+cData< __PARENT, __LOD, __ATOMIC >::cData( __PARENT*  iParent, const cROMSConfig * iROMSConfig, const  cSimple3DKey&  iAttributeKey ) :
     mROMSConfig( iROMSConfig ), // Non-Owning
-    mParent( iParent ) // Non-Owning
+    mParent( iParent ), // Non-Owning
+    mAttributeKey( iAttributeKey )
 {
 }
 
@@ -34,38 +36,54 @@ inline cData<LOD,Atomic>::cData( cROMSChunk< LOD, Atomic >*  iParent, const cROM
 //------------------------------------------------------------ Template Data Container Accessors
 
 
-template< eLod2N LOD, typename Atomic >
-inline  eLod2N  cData< LOD, Atomic >::LODLevel()  const
+template< class __PARENT, eLod2N __LOD, typename __ATOMIC >
+inline  eLod2N
+cData< __PARENT, __LOD, __ATOMIC >::Intrinsic_LOD()  const
 {
     return  LOD;
 }
 
 
-template< eLod2N LOD, typename Atomic >
-inline  tSize  cData< LOD, Atomic >::Size()  const
+template< class __PARENT, eLod2N __LOD, typename __ATOMIC >
+inline  int16_t
+cData< __PARENT, __LOD, __ATOMIC >::Intrinsic_LOD_Size()  const
 {
-    return  tSize( LODLevel() );
+    return  mLOD_Size;
 }
 
 
-template<eLod2N LOD,typename Atomic>
-inline  float cData<LOD,Atomic>::Sizef() const
-{
-    return  float( Size() );
-}
-
-
-template< eLod2N LOD, typename Atomic >
-inline  tVolume  cData< LOD, Atomic >::Capacity()  const
+template< class __PARENT, eLod2N __LOD, typename __ATOMIC >
+inline  uint64_t
+cData< __PARENT, __LOD, __ATOMIC >::Capacity()  const
 {
     return  mCapacity;
 }
 
 
-template< eLod2N LOD, typename Atomic >
-inline  const  cROMSConfig&  cData< LOD, Atomic >::ROMSConfig()  const
+template< class __PARENT, eLod2N __LOD, typename __ATOMIC >
+inline  const  cROMSConfig&
+cData< __PARENT, __LOD, __ATOMIC >::ROMSConfig()  const
 {
     return  *mROMSConfig;
+}
+
+
+template< class __PARENT, eLod2N __LOD, typename __ATOMIC >
+inline  const  cSimple3DKey&
+cData< __PARENT, __LOD, __ATOMIC >::AttributeKey()  const
+{
+    return  mAttributeKey;
+}
+
+
+//----------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------- Data Accessors
+
+
+template<class __PARENT,eLod2N __LOD,typename __ATOMIC>
+inline __ATOMIC cData<__PARENT,__LOD,__ATOMIC>::DefaultValue()
+{
+    return __ATOMIC( 0 );
 }
 
 
@@ -73,56 +91,19 @@ inline  const  cROMSConfig&  cData< LOD, Atomic >::ROMSConfig()  const
 //--------------------------------------------------------------------------------------- Render
 
 
-template<eLod2N LOD,typename Atomic>
-inline glm::vec3 cData<LOD,Atomic>::OctDebugColor()
+template< class __PARENT, eLod2N __LOD, typename __ATOMIC >
+inline  glm::vec3
+inline cData< __PARENT, __LOD, __ATOMIC >::WireFrameColor()
 {
     return glm::vec3( 1.0f, 1.0f, 1.0f );
 }
 
 
-template<eLod2N LOD,typename Atomic>
-inline void cData<LOD,Atomic>::RenderOctDebug()
+template< class __PARENT, eLod2N __LOD, typename __ATOMIC >
+inline  void
+inline cData< __PARENT, __LOD, __ATOMIC >::RenderWireFrameStructure()
 {
-    glBegin( GL_LINES );
-        glm::vec3 col = OctDebugColor();
-        glColor3f( col.x, col.y, col.z );
-        auto sizef = Sizef();
-        glVertex3f( 0.f,    0.f,    0.f     );
-        glVertex3f( sizef,  0.f,    0.f     );
-
-        glVertex3f( 0.f,    0.f,    0.f     );
-        glVertex3f( 0.f,    sizef,  0.f     );
-
-        glVertex3f( 0.f,    0.f,    0.f     );
-        glVertex3f( 0.f,    0.f,    sizef   );
-
-        glVertex3f( sizef,  sizef,  sizef   );
-        glVertex3f( 0.f,    sizef,  sizef   );
-
-        glVertex3f( sizef,  sizef,  sizef   );
-        glVertex3f( sizef,  0.f,    sizef   );
-
-        glVertex3f( sizef,  sizef,  sizef   );
-        glVertex3f( sizef,  sizef,  0.f     );
-
-        glVertex3f( 0.f,    sizef,  0.f     );
-        glVertex3f( sizef,  sizef,  0.f     );
-
-        glVertex3f( 0.f,    sizef,  0.f     );
-        glVertex3f( 0.f,    sizef,  sizef   );
-
-        glVertex3f( sizef,  0.f,    0.f     );
-        glVertex3f( sizef,  sizef,  0.f     );
-
-        glVertex3f( sizef,  0.f,    0.f     );
-        glVertex3f( sizef,  0.f,    sizef   );
-
-        glVertex3f( 0.f,    0.f,    sizef   );
-        glVertex3f( sizef,  0.f,    sizef   );
-
-        glVertex3f( 0.f,    0.f,    sizef   );
-        glVertex3f( 0.f,    sizef,  sizef   );
-    glEnd();
+    Utils::DirectDrawWireFrameCube( float( Intrinsic_LOD_Size ), OctDebugColor() );
 }
 
 

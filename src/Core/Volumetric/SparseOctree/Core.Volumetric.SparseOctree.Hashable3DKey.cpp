@@ -5,20 +5,16 @@ namespace  nVolumetric      {
 namespace  nSparseOctree    {
 
 
-cHashable3DKey::cHashable3DKey( tKeyComponent iX, tKeyComponent iY, tKeyComponent iZ ) :
-    mX( iX ),
-    mY( iY ),
-    mZ( iZ ),
+cHashable3DKey::cHashable3DKey( int16_t iX, int16_t iY, int16_t iZ ) :
+    cSimple3DKey( iX, iY, iZ ),
     mCacheValid( false ),
     mCachedHashedSignature( 0 )
 {
 }
 
 
-cHashable3DKey::cHashable3DKey( tHashableKeySignature iHashedSignature ) :
-    mX( 0 ),
-    mY( 0 ),
-    mZ( 0 ),
+cHashable3DKey::cHashable3DKey( uint64_t iHashedSignature ) :
+    cSimple3DKey( 0, 0, 0 ),
     mCacheValid( true ),
     mCachedHashedSignature( iHashedSignature )
 {
@@ -27,73 +23,18 @@ cHashable3DKey::cHashable3DKey( tHashableKeySignature iHashedSignature ) :
 
 
 void
-cHashable3DKey::Set( tKeyComponent iX, tKeyComponent iY, tKeyComponent iZ )
-{
-    mX = iX;
-    mY = iY;
-    mZ = iZ;
-    InvalidCache();
-}
-
-
-void
-cHashable3DKey::Set( tHashableKeySignature iHashedSignature )
+cHashable3DKey::Set( uint64_t iHashedSignature )
 {
     mCachedHashedSignature = iHashedSignature;
     mCacheValid = true;
 
-    mX = tKeyComponent( (   ( mCachedHashedSignature & tHashableKeySignature( 0x0000FFFF00000000 ) ) >> 32 )    - sgSignedKeyComponentRangeShift );
-    mY = tKeyComponent( (   ( mCachedHashedSignature & tHashableKeySignature( 0x00000000FFFF0000 ) ) >> 16 )    - sgSignedKeyComponentRangeShift );
-    mZ = tKeyComponent( (     mCachedHashedSignature & tHashableKeySignature( 0x000000000000FFFF ) )            - sgSignedKeyComponentRangeShift );
+    mX = int16_t( ( ( mCachedHashedSignature & uint64_t( 0x0000FFFF00000000 ) ) >> 32 ) - sgSignedKeyComponentRangeShift );
+    mY = int16_t( ( ( mCachedHashedSignature & uint64_t( 0x00000000FFFF0000 ) ) >> 16 ) - sgSignedKeyComponentRangeShift );
+    mZ = int16_t( (   mCachedHashedSignature & uint64_t( 0x000000000000FFFF ) )         - sgSignedKeyComponentRangeShift );
 }
 
 
-void
-cHashable3DKey::SetX( tKeyComponent iValue )
-{
-    mX = iValue;
-    InvalidCache();
-}
-
-
-void
-cHashable3DKey::SetY( tKeyComponent iValue )
-{
-    mX = iValue;
-    InvalidCache();
-}
-
-
-void
-cHashable3DKey::SetZ( tKeyComponent iValue )
-{
-    mX = iValue;
-    InvalidCache();
-}
-
-
-tKeyComponent
-cHashable3DKey::GetX()  const
-{
-    return  mX;
-}
-
-
-tKeyComponent
-cHashable3DKey::GetY()  const
-{
-    return  mY;
-}
-
-
-tKeyComponent
-cHashable3DKey::GetZ()  const
-{
-    return  mZ;
-}
-
-
-const  tHashableKeySignature&
+const  uint64_t&
 cHashable3DKey::HashedSignature()  const
 {
     UpdateHashedSignatureCache();
@@ -104,14 +45,14 @@ cHashable3DKey::HashedSignature()  const
 cHashable3DKey
 cHashable3DKey::Top()  const
 {
-    return  cHashable3DKey( mX, mY-1, mZ );
+    return  cHashable3DKey( mX, mY+1, mZ );
 }
 
 
 cHashable3DKey
 cHashable3DKey::Bot()  const
 {
-    return  cHashable3DKey( mX, mY+1, mZ );
+    return  cHashable3DKey( mX, mY-1, mZ );
 }
 
 
@@ -159,9 +100,9 @@ cHashable3DKey::UpdateHashedSignatureCache()  const
     if( mCacheValid )
         return;
 
-    mCachedHashedSignature = tHashableKeySignature( tHashableKeySignature( mX ) + sgSignedKeyComponentRangeShift ) << 32 |
-                             tHashableKeySignature( tHashableKeySignature( mY ) + sgSignedKeyComponentRangeShift ) << 16 |
-                             tHashableKeySignature( tHashableKeySignature( mZ ) + sgSignedKeyComponentRangeShift );
+    mCachedHashedSignature = uint64_t( uint64_t( mX ) + sgSignedKeyComponentRangeShift ) << 32 |
+                             uint64_t( uint64_t( mY ) + sgSignedKeyComponentRangeShift ) << 16 |
+                             uint64_t( uint64_t( mZ ) + sgSignedKeyComponentRangeShift );
 
     mCacheValid = true;
 }
