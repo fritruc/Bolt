@@ -157,7 +157,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\BoltExtlibs\_build\include;$(SolutionDir)..\..\..\src\Core;$(SolutionDir)..\..\..\src\Core\AI;$(SolutionDir)..\..\..\src\Core\Application;$(SolutionDir)..\..\..\src\Core\Base;$(SolutionDir)..\..\..\src\Core\Base\Thread;$(SolutionDir)..\..\..\src\Core\Benchmark;$(SolutionDir)..\..\..\src\Core\BoltScript;$(SolutionDir)..\..\..\src\Core\ECS;$(SolutionDir)..\..\..\src\Core\ECS\Component;$(SolutionDir)..\..\..\src\Core\ECS\Core;$(SolutionDir)..\..\..\src\Core\ECS\System;$(SolutionDir)..\..\..\src\Core\ECS\Utilities;$(SolutionDir)..\..\..\src\Core\GUI;$(SolutionDir)..\..\..\src\Core\MainMenu;$(SolutionDir)..\..\..\src\Core\Mapping;$(SolutionDir)..\..\..\src\Core\Math;$(SolutionDir)..\..\..\src\Core\Screen;$(SolutionDir)..\..\..\src\Core\Shader;$(SolutionDir)..\..\..\src\Core\Shortcuts;$(SolutionDir)..\..\..\src\Core\Volumetric;$(SolutionDir)..\..\..\src\Core\Volumetric\SparseOctree;$(SolutionDir)..\..\..\src\Core\Volumetric\Static;$(SolutionDir)..\..\..\src\GameMockup;$(SolutionDir)..\..\..\src\GameMockup\Application;$(SolutionDir)..\..\..\src\GameMockup\ECS\System;$(SolutionDir)..\..\..\src\GameMockup\ECS;$(SolutionDir)..\..\..\src\GameMockup\Screen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\BoltExtlibs\_build\include;$(SolutionDir)..\..\..\src\Core;$(SolutionDir)..\..\..\src\Core\AI;$(SolutionDir)..\..\..\src\Core\Application;$(SolutionDir)..\..\..\src\Core\Base;$(SolutionDir)..\..\..\src\Core\Base\Thread;$(SolutionDir)..\..\..\src\Core\Benchmark;$(SolutionDir)..\..\..\src\Core\BoltScript;$(SolutionDir)..\..\..\src\Core\ECS;$(SolutionDir)..\..\..\src\Core\ECS\Component;$(SolutionDir)..\..\..\src\Core\ECS\Core;$(SolutionDir)..\..\..\src\Core\ECS\System;$(SolutionDir)..\..\..\src\Core\ECS\Utilities;$(SolutionDir)..\..\..\src\Core\GUI;$(SolutionDir)..\..\..\src\Core\MainMenu;$(SolutionDir)..\..\..\src\Core\Mapping;$(SolutionDir)..\..\..\src\Core\Math;$(SolutionDir)..\..\..\src\Core\Screen;$(SolutionDir)..\..\..\src\Core\Shader;$(SolutionDir)..\..\..\src\Core\Shortcuts;$(SolutionDir)..\..\..\src\Core\Volumetric;$(SolutionDir)..\..\..\src\Core\Volumetric\DynamicOctree;$(SolutionDir)..\..\..\src\Core\Volumetric\SparseOctree;$(SolutionDir)..\..\..\src\Core\Volumetric\Static;$(SolutionDir)..\..\..\src\GameMockup;$(SolutionDir)..\..\..\src\GameMockup\Application;$(SolutionDir)..\..\..\src\GameMockup\ECS\System;$(SolutionDir)..\..\..\src\GameMockup\ECS;$(SolutionDir)..\..\..\src\GameMockup\Screen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -174,7 +174,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;CONSOLEDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\BoltExtlibs\_build\include;$(SolutionDir)..\..\..\src\Core;$(SolutionDir)..\..\..\src\Core\AI;$(SolutionDir)..\..\..\src\Core\Application;$(SolutionDir)..\..\..\src\Core\Base;$(SolutionDir)..\..\..\src\Core\Base\Thread;$(SolutionDir)..\..\..\src\Core\Benchmark;$(SolutionDir)..\..\..\src\Core\BoltScript;$(SolutionDir)..\..\..\src\Core\ECS;$(SolutionDir)..\..\..\src\Core\ECS\Component;$(SolutionDir)..\..\..\src\Core\ECS\Core;$(SolutionDir)..\..\..\src\Core\ECS\System;$(SolutionDir)..\..\..\src\Core\ECS\Utilities;$(SolutionDir)..\..\..\src\Core\GUI;$(SolutionDir)..\..\..\src\Core\MainMenu;$(SolutionDir)..\..\..\src\Core\Mapping;$(SolutionDir)..\..\..\src\Core\Math;$(SolutionDir)..\..\..\src\Core\Screen;$(SolutionDir)..\..\..\src\Core\Shader;$(SolutionDir)..\..\..\src\Core\Shortcuts;$(SolutionDir)..\..\..\src\Core\Volumetric;$(SolutionDir)..\..\..\src\Core\Volumetric\SparseOctree;$(SolutionDir)..\..\..\src\Core\Volumetric\Static;$(SolutionDir)..\..\..\src\GameMockup;$(SolutionDir)..\..\..\src\GameMockup\Application;$(SolutionDir)..\..\..\src\GameMockup\ECS\System;$(SolutionDir)..\..\..\src\GameMockup\ECS;$(SolutionDir)..\..\..\src\GameMockup\Screen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\BoltExtlibs\_build\include;$(SolutionDir)..\..\..\src\Core;$(SolutionDir)..\..\..\src\Core\AI;$(SolutionDir)..\..\..\src\Core\Application;$(SolutionDir)..\..\..\src\Core\Base;$(SolutionDir)..\..\..\src\Core\Base\Thread;$(SolutionDir)..\..\..\src\Core\Benchmark;$(SolutionDir)..\..\..\src\Core\BoltScript;$(SolutionDir)..\..\..\src\Core\ECS;$(SolutionDir)..\..\..\src\Core\ECS\Component;$(SolutionDir)..\..\..\src\Core\ECS\Core;$(SolutionDir)..\..\..\src\Core\ECS\System;$(SolutionDir)..\..\..\src\Core\ECS\Utilities;$(SolutionDir)..\..\..\src\Core\GUI;$(SolutionDir)..\..\..\src\Core\MainMenu;$(SolutionDir)..\..\..\src\Core\Mapping;$(SolutionDir)..\..\..\src\Core\Math;$(SolutionDir)..\..\..\src\Core\Screen;$(SolutionDir)..\..\..\src\Core\Shader;$(SolutionDir)..\..\..\src\Core\Shortcuts;$(SolutionDir)..\..\..\src\Core\Volumetric;$(SolutionDir)..\..\..\src\Core\Volumetric\DynamicOctree;$(SolutionDir)..\..\..\src\Core\Volumetric\SparseOctree;$(SolutionDir)..\..\..\src\Core\Volumetric\Static;$(SolutionDir)..\..\..\src\GameMockup;$(SolutionDir)..\..\..\src\GameMockup\Application;$(SolutionDir)..\..\..\src\GameMockup\ECS\System;$(SolutionDir)..\..\..\src\GameMockup\ECS;$(SolutionDir)..\..\..\src\GameMockup\Screen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -214,7 +214,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\BoltExtlibs\_build\include;$(SolutionDir)..\..\..\src\Core;$(SolutionDir)..\..\..\src\Core\AI;$(SolutionDir)..\..\..\src\Core\Application;$(SolutionDir)..\..\..\src\Core\Base;$(SolutionDir)..\..\..\src\Core\Base\Thread;$(SolutionDir)..\..\..\src\Core\Benchmark;$(SolutionDir)..\..\..\src\Core\BoltScript;$(SolutionDir)..\..\..\src\Core\ECS;$(SolutionDir)..\..\..\src\Core\ECS\Component;$(SolutionDir)..\..\..\src\Core\ECS\Core;$(SolutionDir)..\..\..\src\Core\ECS\System;$(SolutionDir)..\..\..\src\Core\ECS\Utilities;$(SolutionDir)..\..\..\src\Core\GUI;$(SolutionDir)..\..\..\src\Core\MainMenu;$(SolutionDir)..\..\..\src\Core\Mapping;$(SolutionDir)..\..\..\src\Core\Math;$(SolutionDir)..\..\..\src\Core\Screen;$(SolutionDir)..\..\..\src\Core\Shader;$(SolutionDir)..\..\..\src\Core\Shortcuts;$(SolutionDir)..\..\..\src\Core\Volumetric;$(SolutionDir)..\..\..\src\Core\Volumetric\SparseOctree;$(SolutionDir)..\..\..\src\Core\Volumetric\Static;$(SolutionDir)..\..\..\src\GameMockup;$(SolutionDir)..\..\..\src\GameMockup\Application;$(SolutionDir)..\..\..\src\GameMockup\ECS\System;$(SolutionDir)..\..\..\src\GameMockup\ECS;$(SolutionDir)..\..\..\src\GameMockup\Screen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\BoltExtlibs\_build\include;$(SolutionDir)..\..\..\src\Core;$(SolutionDir)..\..\..\src\Core\AI;$(SolutionDir)..\..\..\src\Core\Application;$(SolutionDir)..\..\..\src\Core\Base;$(SolutionDir)..\..\..\src\Core\Base\Thread;$(SolutionDir)..\..\..\src\Core\Benchmark;$(SolutionDir)..\..\..\src\Core\BoltScript;$(SolutionDir)..\..\..\src\Core\ECS;$(SolutionDir)..\..\..\src\Core\ECS\Component;$(SolutionDir)..\..\..\src\Core\ECS\Core;$(SolutionDir)..\..\..\src\Core\ECS\System;$(SolutionDir)..\..\..\src\Core\ECS\Utilities;$(SolutionDir)..\..\..\src\Core\GUI;$(SolutionDir)..\..\..\src\Core\MainMenu;$(SolutionDir)..\..\..\src\Core\Mapping;$(SolutionDir)..\..\..\src\Core\Math;$(SolutionDir)..\..\..\src\Core\Screen;$(SolutionDir)..\..\..\src\Core\Shader;$(SolutionDir)..\..\..\src\Core\Shortcuts;$(SolutionDir)..\..\..\src\Core\Volumetric;$(SolutionDir)..\..\..\src\Core\Volumetric\DynamicOctree;$(SolutionDir)..\..\..\src\Core\Volumetric\SparseOctree;$(SolutionDir)..\..\..\src\Core\Volumetric\Static;$(SolutionDir)..\..\..\src\GameMockup;$(SolutionDir)..\..\..\src\GameMockup\Application;$(SolutionDir)..\..\..\src\GameMockup\ECS\System;$(SolutionDir)..\..\..\src\GameMockup\ECS;$(SolutionDir)..\..\..\src\GameMockup\Screen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -280,8 +280,10 @@
     <ClCompile Include="..\..\..\src\Core\Screen\Core.Screen.ScreenMainMenu.cpp" />
     <ClCompile Include="..\..\..\src\Core\Shader\Core.Shader.Shader.cpp" />
     <ClCompile Include="..\..\..\src\Core\Shortcuts\Core.Shortcuts.Shortcuts.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Volumetric\DynamicOctree\Core.Volumetric.DynamicOctree.ROMSConfig.cpp" />
     <ClCompile Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.Hashable3DKey.cpp" />
     <ClCompile Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.ROMSConfig.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.Simple3DKey.cpp" />
     <ClCompile Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.Utils.cpp" />
     <ClCompile Include="..\..\..\src\Core\Volumetric\Static\Core.Volumetric.Static.Data.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -369,19 +371,23 @@
     <ClInclude Include="..\..\..\src\Core\Screen\Core.Screen.ScreenMainMenu.h" />
     <ClInclude Include="..\..\..\src\Core\Shader\Core.Shader.Shader.h" />
     <ClInclude Include="..\..\..\src\Core\Shortcuts\Core.Shortcuts.Shortcuts.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\DynamicOctree\Core.Volumetric.DynamicOctree.ROMSConfig.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\DynamicOctree\Core.Volumetric.DynamicOctree.Types.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\DynamicOctree\Core.Volumetric.DynamicOctree.USROCMap.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\DynamicOctree\Core.Volumetric.DynamicOctree.USROCMap.tImp.hpp" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.Data.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.Data.tImp.hpp" />
-    <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.DataConverterProtocol.h" />
-    <ClCompile Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.DataConverterProtocol.cpp" />
-    <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.DataIncludes.h" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.DataConverterStaticProtocol.h" />
+    <ClCompile Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.DataConverterStaticProtocol.cpp" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.DataReportAnalysis.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.NodeROMSChunk.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.NodeROMSChunk.tImp.hpp" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.RootROMSChunk.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.RootROMSChunk.tImp.hpp" />
+    <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.Simple3DKey.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.Utils.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Volumetric.SparseOctree.DataIncludes.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.RawData.h" />
-    <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.RLEData.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.Hashable3DKey.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.EmptyData.h" />
     <ClInclude Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.FullData.h" />
@@ -429,7 +435,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.RawData.tImp.hpp" />
-    <None Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.RLEData.tImp.hpp" />
     <None Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.EmptyData.tImp.hpp" />
     <None Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.FullData.tImp.hpp" />
     <None Include="..\..\..\src\Core\Volumetric\SparseOctree\Core.Volumetric.SparseOctree.ROMSChunk.tImp.hpp" />
